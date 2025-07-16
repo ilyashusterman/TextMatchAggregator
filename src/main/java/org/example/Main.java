@@ -52,7 +52,6 @@ public class Main {
             );
             log("All workers finished. Aggregating results...");
             log("\nWaiting for results...");
-            Thread.sleep(1000);
             log("\n==================== RESULTS ====================\n");
             Printer.printResults(merged);
             log("\n==================== END RESULTS ====================\n");
