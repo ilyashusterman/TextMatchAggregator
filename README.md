@@ -90,7 +90,7 @@ make build_java && JAVA_HOME= PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH" java
 When you run the CLI app, it will print a benchmark line showing the total execution time in milliseconds:
 
 ```
-[main] BENCHMARK: Total execution time: 1234 ms
+[main] BENCHMARK: Total execution time: 1176  ms
 ```
 
 This helps you measure the performance of the application on your input files.
