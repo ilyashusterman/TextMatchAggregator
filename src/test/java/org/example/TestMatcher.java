@@ -8,14 +8,14 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TestMatcherUtil {
+class TestMatcher {
     @Test
     void testMatcherFindsNamesAndOffsets() {
         String text = "James and John went to see Robert. James was happy.";
         int lineOffset = 10;
         FileReader.Chunk chunk = new FileReader.Chunk(text, lineOffset);
         List<String> names = Arrays.asList("James", "John", "Robert", "Michael");
-        Map<String, List<int[]>> results = MatcherUtil.matcher(chunk, names);
+        Map<String, List<int[]>> results = Matcher.matcher(chunk, names);
         assertTrue(results.containsKey("James"));
         assertTrue(results.containsKey("John"));
         assertTrue(results.containsKey("Robert"));
