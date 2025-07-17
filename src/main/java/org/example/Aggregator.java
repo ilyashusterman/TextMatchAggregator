@@ -1,9 +1,8 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -16,21 +15,23 @@ public final class Aggregator {
     }
 
     /**
-     * Aggregates multiple name-location maps into a single consolidated map.
-     * Uses functional programming style with streams for clean, readable aggregation.
-     * 
+     * Aggregates multiple name-location maps into a single consolidated map using a concurrent collector.
      * @param chunkResults List of maps from name to list of [lineOffset, charOffset] pairs
      * @return Consolidated map from name to combined list of all locations
      */
     public static Map<String, List<int[]>> aggregate(List<Map<String, List<int[]>>> chunkResults) {
-        return chunkResults.stream()
+        return chunkResults.parallelStream()
             .flatMap(nameLocationMap -> nameLocationMap.entrySet().stream())
-            .collect(Collectors.groupingBy(
+            .collect(Collectors.toConcurrentMap(
                 Map.Entry::getKey,
-                Collectors.flatMapping(
-                    entry -> entry.getValue().stream(),
-                    Collectors.toList()
-                )
+                entry -> entry.getValue(),
+                (list1, list2) -> {
+                    List<int[]> merged = new java.util.ArrayList<>(list1.size() + list2.size());
+                    merged.addAll(list1);
+                    merged.addAll(list2);
+                    return merged;
+                },
+                ConcurrentHashMap::new
             ));
     }
 }
