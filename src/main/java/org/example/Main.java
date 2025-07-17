@@ -35,6 +35,8 @@ public final class Main {
             String inputFilePath = args[0];
             long startTime = System.currentTimeMillis();
             log("main() called with inputFile: %s", inputFilePath);
+            // Explicitly initialize the matcher pattern for all chunks
+            Matcher.initializePattern(NAMES_TO_SEARCH);
 
             // Map-Reduce: read, chunk, process, aggregate, and print in a single pipeline
             log("\nWaiting for results...");
